@@ -1,22 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WK Test - Cadastro de Produtos</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
-</head>
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
 <body>
-    <nav class="navbar navbar-expand-lg bg-dark navbar-dark">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="/">WK Test</a>
-        </div>
-    </nav>
+    
     <main class="w-100 h-100">
         <section id="categoria">
             <div class="container pt-5">
-                <h3 class="w-100">Produtos <span class="btn btn-primary float-end" data-bs-toggle="modal" data-bs-target="#addCategoryModal">Adicionar</span></h3>
+                <h3 class="w-100">Categorias <span class="btn btn-primary float-end" data-bs-toggle="modal" data-bs-target="#addCategoryModal">Adicionar</span></h3>
                 <hr>
                 <table class="table table-striped">
                     <thead>
@@ -27,12 +18,11 @@
                         </tr>
                     </thead>
                     <tbody id="contentCategories">
-                        
                     </tbody>
                 </table>
             </div>
             <div class="modal modal-xl fade" id="addCategoryModal" data-bs-backdrop="static" data-bs-keyboard="false"
-                tabindex="-1">
+                 tabindex="-1">
                 <div class="modal-dialog">
                     <form onsubmit="addCategory(this)">
                         <div class="modal-content">
@@ -81,7 +71,7 @@
         <section id="produto">
             <div class="container pt-5">
                 <h3 class="w-100">
-                    Produtos 
+                    Produtos
                     <span class="btn btn-primary float-end" data-bs-toggle="modal" data-bs-target="#addProductModal">Adicionar</span>
                 </h3>
                 <hr>
@@ -96,7 +86,6 @@
                         </tr>
                     </thead>
                     <tbody id="contentProducts">
-                        
                     </tbody>
                 </table>
             </div>
@@ -120,7 +109,6 @@
                                 <div class="mb-3">
                                     <label for="categorias" class="form-label">Categoria</label>
                                     <select name="categorias" id="categorias" class="form-control custom-select">
-
                                     </select>
                                 </div>
                             </div>
@@ -156,7 +144,6 @@
                                 <div class="mb-3">
                                     <label for="categorias" class="form-label">Categoria</label>
                                     <select name="categorias_" id="categorias_" class="form-control custom-select">
-            
                                     </select>
                                 </div>
                             </div>
@@ -172,11 +159,10 @@
     </main>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
-        crossorigin="anonymous"></script>
+            integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
+            crossorigin="anonymous"></script>
 
     <script>
-        const host = 'https://localhost:44360/'
         fillTable('contentCategories');
         fillTable('contentProducts');
 
@@ -194,7 +180,7 @@
             } else {
                 data = await getItemsProducts();
             }
-            
+
             data.forEach(_data => {
                 if(id == 'contentProducts') {
                     table.innerHTML += `
@@ -225,11 +211,11 @@
                 }
             })
         }
-        
+
         //----------------------------------------------------
-        async function getItemsCategory(){ 
+        async function getItemsCategory(){
             return await fetch(
-                `${host}Categoria`,
+                `/api/Categoria`,
                 {
                     method: 'GET',
                     headers: {
@@ -240,17 +226,17 @@
                 return await response.json()
             });
         }
-        
-        async function addCategory(form) { 
+
+        async function addCategory(form) {
             event.preventDefault();
 
             let data = new FormData(form);
             let body = {
                 nome: data.get('nome'),
             }
-            
+
             await fetch(
-                `${host}Categoria`,
+                `/api/Categoria`,
                 {
                     method: 'POST',
                     headers: {
@@ -267,7 +253,7 @@
 
         async function deleteCategory(id){
             await fetch(
-                `${host}Categoria`,
+                `/api/Categoria`,
                 {
                     method: 'DELETE',
                     headers: {
@@ -285,7 +271,7 @@
             console.log(id)
             document.getElementById('idCat').value = id;
         }
-        
+
         async function editCategory(form){
             event.preventDefault();
 
@@ -296,7 +282,7 @@
             }
 
             await fetch(
-                `${host}Categoria`,
+                `/api/Categoria`,
                 {
                     method: 'PUT',
                     headers: {
@@ -312,7 +298,7 @@
 
         async function getItemsProducts(){
             return await fetch(
-                `${host}Produtos`,
+                `/api/Produtos`,
                 {
                     method: 'GET',
                     headers: {
@@ -323,8 +309,8 @@
                 return await response.json()
             });
         }
-        
-        async function addProduct(form) { 
+
+        async function addProduct(form) {
             event.preventDefault();
 
             let data = new FormData(form);
@@ -333,9 +319,9 @@
                 preco: data.get('preco'),
                 categoriaId: data.get('categorias')
             }
-            
+
             await fetch(
-                `${host}Produtos`,
+                `/api/Produtos`,
                 {
                     method: 'POST',
                     headers: {
@@ -353,7 +339,7 @@
 
         async function deleteProduct(id){
             await fetch(
-                `${host}Produtos`,
+                `/api/Produtos`,
                 {
                     method: 'DELETE',
                     headers: {
@@ -384,7 +370,7 @@
             console.log(JSON.stringify(body))
 
             await fetch(
-                `${host}Produtos`,
+                `/api/Produtos`,
                 {
                     method: 'PUT',
                     headers: {
@@ -404,6 +390,5 @@
 
         function atualizaSelect() {}
 
- </script>
+    </script>
 </body>
-</html>
